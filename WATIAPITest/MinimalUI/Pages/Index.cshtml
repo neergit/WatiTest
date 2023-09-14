@@ -1,0 +1,45 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<input type="number" placeholder="Number 1" id="num1" required>
+<input type="number" placeholder="Number 2" id="num2" required>
+<button id="addBtn">Add Numbers</button>
+<text id="addedNumbers"></text>
+
+@section Scripts
+{
+    <script>
+        const num1 = parseFloat(document.getElementById("num1"));
+        const num2 = parseFloat(document.getElementById("num2"));
+        var btn = document.getElementById("addBtn");
+        var label = document.getElementById("addedNumbers");
+
+        const url = "https://localhost:7135/Add";
+
+
+        //fetch this on click event of bbutton
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({ num1, num2 }),
+            headers: { 'content-type': 'application/json' }
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('addedNumbers').textContent = data.sum;
+                console.log(data.sum);
+            })
+            .catch(error => {
+                alert(error);
+                return;
+            });
+    </script>
+}
+
